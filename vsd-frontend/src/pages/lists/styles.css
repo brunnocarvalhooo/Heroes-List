@@ -1,0 +1,59 @@
+.path {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  .span {
+  
+  margin-left: 10px;
+
+  .a {
+    color: #777777;
+  }
+
+  .svg {
+    margin: 0 6px;
+  }
+}
+  
+  h3 {
+    color: #fff;
+    margin-top: 4vh;
+  }
+
+}
+
+.MuiBox-root {
+  background-color: #1a1a1a !important;
+  color: aliceblue;
+}
+
+.MuiSvgIcon-root {
+  display: flex;
+  justify-content: center;
+  margin-left: 8px;
+  color: #fff;
+
+  transition: all 0.5s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.title-column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 16px;
+  margin-top: 4px;
+
+  .edit {
+    font-size: 18px;
+    margin-left: 16px;
+  }
+}
+
+.edit-link {
+  align-items: center;
+}
