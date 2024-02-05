@@ -48,11 +48,6 @@ export const SignIn = () => {
 
         await signIn(email, password)
 
-        addToast({
-          type: 'success',
-          title: 'successfully logged',
-        })
-
         setLoading(false)
 
         navigate('/home')

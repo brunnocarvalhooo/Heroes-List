@@ -22,22 +22,16 @@ export const Content = styles.div`
   > div {
     display: flex;
     align-items: center;
+    margin-bottom: 40px;
 
     img {
-      width: 40vw;
-      max-width: 500px;
-      min-width: 100px;
-      height: 15vh;
-      min-height: 100px;
-      margin-bottom: 40px;
+      width: 300px;
+      height: 150px;
     }
 
     .heroesList {
-      width: 15vw;
-      height: 20vh;
-      min-width: 150px;
-      min-height: 130px;
-      max-width: 250px;
+      width: 150px;
+      height: 200px;
     }
   }
 

@@ -37,7 +37,6 @@ export const Dashboard = () => {
 
   return (
     <Container>
-      <h3 style={{ marginBottom: 30 }}>Dashboar</h3>
       <div
         style={{
           marginLeft: 10,

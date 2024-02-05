@@ -10,11 +10,11 @@ import {
   Lists,
   Heroes,
   Hero,
+  ListDetails,
 } from '../pages'
 
 import { Layout } from '../shared/components/layout'
 import { PrivateRoutes } from './PrivateRoutes'
-import { ListDetails } from '../pages/lists/DetailsList'
 
 export const AppRoutes = () => {
   return (

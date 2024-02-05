@@ -1,13 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Fab,
-  Grid,
-  Modal,
-  TablePagination,
-} from '@mui/material'
+import { Box, Button, CircularProgress, Fab, Grid, Modal } from '@mui/material'
 import * as Yup from 'yup'
 
 import * as React from 'react'
@@ -55,7 +47,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80%',
+  width: '40vw',
   minWidth: '200px',
   maxWidth: '700px',
   bgcolor: 'background.paper',
@@ -297,7 +289,12 @@ export const Heroes = () => {
                 </span>
                 <h3>{hero.heroName}</h3>
               </Path>
-              <Box display="flex" justifyContent="center" marginTop={2}>
+              <Box
+                display="flex"
+                justifyContent="center"
+                marginTop={2}
+                marginBottom={4}
+              >
                 {rows.length !== 0 && (
                   <Typography>
                     Choose the list you want to add the selected hero
@@ -326,7 +323,6 @@ export const Heroes = () => {
                       paginationModel: { page: 0, pageSize: 5 },
                     },
                   }}
-                  rowWidth="100%"
                   checkboxSelection
                   onRowSelectionModelChange={(ids) => {
                     setSelectedRows(ids)

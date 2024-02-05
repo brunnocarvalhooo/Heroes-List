@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { IoIosArrowForward } from 'react-icons/io'
-import { useTheme } from 'styled-components'
 
 import {
   createList,
@@ -15,8 +14,6 @@ import { Button, FormToolbar, Input, TextArea } from '../../shared/components'
 import getValidationErrors from '../../shared/utils/getValidationErrors'
 import { BaseLayout } from '../../shared/layouts/BaseLayout'
 import { useToast } from '../../shared/hooks/Toast'
-import { FormContainer } from '../profile/styles'
-import { Environment } from '../../shared/environments'
 
 import * as React from 'react'
 import * as Yup from 'yup'
@@ -36,14 +33,7 @@ import Table from '@mui/material/Table'
 import Box from '@mui/material/Box'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 
-import {
-  Container,
-  ModalContainer,
-  ButtonImage,
-  Image,
-  ImageContainer,
-  Path,
-} from './styles'
+import { Container, ModalContainer, Path } from './styles'
 import './styles.css'
 import { Form } from '@unform/web'
 
@@ -62,18 +52,14 @@ const style = {
 }
 
 export const Lists = () => {
-  const [rerenderDelete, setRerenderDelete] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [isLoading, setIsLoading] = useState(false)
   const [heroesCount, setHeroesCount] = useState(0)
-  const [rerender, setRerender] = useState(0)
   const [open, setOpen] = useState(false)
   const [rows, setRows] = useState([])
   const [page, setPage] = useState(0)
   const [isEditing, setIsEditing] = useState(false)
   const [rowId, setRowId] = useState(0)
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
 
   const [editListData, setEditListData] = useState({
     title: '',
@@ -96,7 +82,6 @@ export const Lists = () => {
   const { addToast } = useToast()
 
   const navigate = useNavigate()
-  const theme = useTheme()
 
   const formRef = useRef(null)
 
@@ -110,14 +95,11 @@ export const Lists = () => {
     async (params) => {
       setIsLoading(true)
       try {
-        deleteList(params)
-
-        navigate('/home')
+        await deleteList(params)
 
         const updatedRows = await getAllLists()
-        setRows(updatedRows.data.data)
 
-        setRerenderDelete((prev) => prev + 1)
+        setRows(updatedRows.data.data)
 
         addToast({
           type: 'success',
@@ -125,7 +107,6 @@ export const Lists = () => {
         })
 
         navigate('/lists')
-        setIsLoading(false)
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const error = getValidationErrors(err)
@@ -138,11 +119,11 @@ export const Lists = () => {
           title: 'Error deleting list',
           description: 'Try again.',
         })
-
+      } finally {
         setIsLoading(false)
       }
     },
-    [addToast, navigate, rerenderDelete],
+    [addToast, navigate],
   )
 
   const handleChangePage = (_, newPage) => {
@@ -171,14 +152,16 @@ export const Lists = () => {
 
         await schema.validate(data, { abortEarly: false })
 
-        createList(data)
-
-        navigate('/home')
+        await createList(data)
 
         const updatedRows = await getAllLists()
+
         setRows(updatedRows.data.data)
 
-        setRerender((prev) => prev + 1)
+        const heroesCountArray = updatedRows.data.data.map(
+          (data) => data.heroes?.length ?? 0,
+        )
+        setHeroesCount(heroesCountArray)
 
         addToast({
           type: 'success',
@@ -186,7 +169,6 @@ export const Lists = () => {
         })
 
         navigate('/lists')
-        setIsLoading(false)
         setOpen(false)
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -200,11 +182,11 @@ export const Lists = () => {
           title: 'Authentication error.',
           description: 'Check the fields',
         })
-
+      } finally {
         setIsLoading(false)
       }
     },
-    [addToast, navigate, rerender, setRerender],
+    [addToast, navigate],
   )
 
   const handleEditSubmit = useCallback(
@@ -228,8 +210,6 @@ export const Lists = () => {
 
         const updatedRows = await getAllLists()
         setRows(updatedRows.data.data)
-
-        setRerender((prev) => prev + 1)
 
         addToast({
           type: 'success',
@@ -255,7 +235,7 @@ export const Lists = () => {
         setIsLoading(false)
       }
     },
-    [addToast, navigate, rerender, setRerender, rowId, title, description],
+    [addToast, navigate, rowId],
   )
 
   const columns = [
@@ -265,13 +245,6 @@ export const Lists = () => {
       align: 'left',
       minWidth: '5vw',
     },
-    // {
-    //   id: 'image',
-    //   label: '',
-    //   padding: '0 1vw 0 1vw',
-    //   minWidth: '10em',
-    //   align: 'left',
-    // },
     {
       id: 'title',
       label: 'Name',
@@ -311,7 +284,7 @@ export const Lists = () => {
         setHeroesCount(heroesCountArray)
       }
     })
-  }, [rerender, rerenderDelete])
+  }, [])
 
   return (
     <>
@@ -325,7 +298,12 @@ export const Lists = () => {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <Path display="flex" justifyContent="center" alignItems="center">
+              <Path
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                marginBottom={3}
+              >
                 <span className="span">
                   <Link
                     className="a"
@@ -345,13 +323,11 @@ export const Lists = () => {
                 style={{ marginBottom: 20, marginTop: 10 }}
               >
                 <Input
-                  onChange={(e) => setTitle(e.target.value)}
                   defaultValue={isEditing ? editListData.title : ''}
                   name="title"
                   placeholder="Title"
                 />
                 <TextArea
-                  onChange={(e) => setDescription(e.target.value)}
                   defaultValue={isEditing ? editListData.description : ''}
                   name="description"
                   placeholder="Description"

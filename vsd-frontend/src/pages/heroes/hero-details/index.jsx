@@ -1,15 +1,15 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Container, ModalContainer, Path } from '../lists/styles'
+import { Container, ModalContainer, Path } from '../../lists/styles'
 import { IoIosArrowForward } from 'react-icons/io'
-import { BaseLayout } from '../../shared/layouts/BaseLayout'
-import { FormToolbar, Button as SharedButton } from '../../shared/components'
+import { BaseLayout } from '../../../shared/layouts/BaseLayout'
+import { FormToolbar, Button as SharedButton } from '../../../shared/components'
 import { useState, useEffect } from 'react'
 import {
   getHero,
   getList,
   getListsByUser,
   updateList,
-} from '../../api/heroes-list-api'
+} from '../../../api/heroes-list-api'
 import {
   Accordion,
   AccordionDetails,
@@ -126,6 +126,8 @@ export const Hero = () => {
     }
   }
 
+  console.log(hero)
+
   return (
     <BaseLayout
       toolbar={<FormToolbar handleBack={() => navigate('/heroes')} />}
@@ -226,7 +228,7 @@ export const Hero = () => {
                   style={{ marginLeft: 10, marginRight: 10 }}
                 />
               </span>
-              <h3>{hero.name}</h3>
+              <h3>Hero details</h3>
             </div>
 
             <div
@@ -253,36 +255,6 @@ export const Hero = () => {
                   alt={hero.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-
-                <Fab
-                  title="Adicionar a uma lista"
-                  onClick={handleOpenSelect}
-                  sx={{
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                      color: '#ff2f00',
-                      background: 'rgba(255, 47, 0, 0.2)',
-                    },
-                    position: 'absolute',
-
-                    right: '1em',
-                    bottom: '17.5em',
-
-                    width: '3em',
-                    height: '3em',
-
-                    background: 'transparent',
-                    boxShadow: 'none',
-                    borderRadius: '50%',
-                    transition: 'all 0.3s',
-
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <MdFavorite size={26} />
-                </Fab>
               </Avatar>
 
               <div
@@ -292,6 +264,37 @@ export const Hero = () => {
                   marginTop: smDown ? 20 : '',
                 }}
               >
+                <Typography
+                  display="flex"
+                  alignItems="center"
+                  marginBottom={2}
+                  variant="h5"
+                >
+                  <span style={{ fontWeight: 'bold', marginRight: '10px' }}>
+                    Name:
+                  </span>{' '}
+                  {hero.name}
+                  <Fab
+                    size="small"
+                    title="Adicionar a uma lista"
+                    onClick={handleOpenSelect}
+                    sx={{
+                      '&:hover': {
+                        transform: 'scale(1.05)',
+                        color: '#ff2f00',
+                        background: 'rgba(255, 47, 0, 0.2)',
+                      },
+                      color: '#fff',
+                      background: 'transparent',
+                      boxShadow: 'none',
+                      transition: 'all 0.3s',
+                      marginLeft: 1,
+                    }}
+                  >
+                    <MdFavorite size={22} />
+                  </Fab>
+                </Typography>
+
                 {hero.description !== '' && (
                   <Typography>
                     <span

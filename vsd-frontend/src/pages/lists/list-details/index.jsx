@@ -1,9 +1,9 @@
 import { useRef, useCallback, useEffect, useState } from 'react'
-import { Container } from './styles'
-import './styles.css'
+import { Container } from '../styles'
+import '../styles.css'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { BaseLayout } from '../../shared/layouts/BaseLayout'
-import { FormToolbar, Input } from '../../shared/components'
+import { BaseLayout } from '../../../shared/layouts/BaseLayout'
+import { FormToolbar, Input } from '../../../shared/components'
 import { IoIosArrowForward } from 'react-icons/io'
 import {
   Accordion,
@@ -22,11 +22,11 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import CloseIcon from '@mui/icons-material/Close'
 
-import { getList, updateList } from '../../api/heroes-list-api'
+import { getList, updateList } from '../../../api/heroes-list-api'
 import { Form } from '@unform/web'
 import * as Yup from 'yup'
-import { useToast } from '../../shared/hooks/Toast'
-import getValidationErrors from '../../shared/utils/getValidationErrors'
+import { useToast } from '../../../shared/hooks/Toast'
+import getValidationErrors from '../../../shared/utils/getValidationErrors'
 import { FaArrowUp } from 'react-icons/fa6'
 
 export const ListDetails = () => {
@@ -34,8 +34,6 @@ export const ListDetails = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const [list, setList] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  // const [selectedRow, setSelectedRow] = useState({})
   const { addToast } = useToast()
 
   const [isVisible, setIsVisible] = useState(false)
@@ -76,7 +74,6 @@ export const ListDetails = () => {
 
   const handleSubmit = useCallback(
     async (data) => {
-      setIsLoading(true)
       try {
         formRef.current?.setErrors({})
 
@@ -99,13 +96,7 @@ export const ListDetails = () => {
 
         await updateList(saveList, id)
 
-        // addToast({
-        //   type: 'success',
-        //   title: 'List updated successfully.',
-        // })
-
         navigate('/lists')
-        setIsLoading(false)
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const error = getValidationErrors(err)
@@ -118,8 +109,6 @@ export const ListDetails = () => {
           title: 'Authentication error.',
           description: 'Check the fields',
         })
-
-        setIsLoading(false)
       }
     },
     [addToast, navigate, id, list],
@@ -168,7 +157,7 @@ export const ListDetails = () => {
                 style={{ marginLeft: 10, marginRight: 10 }}
               />
             </span>
-            <h3>{list.title}</h3>
+            <h3>List details</h3>
           </div>
 
           <div
@@ -187,8 +176,30 @@ export const ListDetails = () => {
               }}
             >
               <Form ref={formRef} onSubmit={handleSubmit} initialData={list}>
-                <Input name="title" placeholder="Title" />
-                <Input name="description" placeholder="Description" />
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: 10,
+                  }}
+                >
+                  <Typography marginRight={2} variant="h6" color="#fff">
+                    Title:
+                  </Typography>
+                  <Input name="title" />
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Typography marginRight={2} variant="h6" color="#fff">
+                    Description:
+                  </Typography>
+                  <Input name="description" />
+                </div>
               </Form>
             </div>
             <div style={{ margin: '50px 20px 0 20px' }}>
@@ -289,7 +300,18 @@ export const ListDetails = () => {
                           ))}
                         </>
                       ) : (
-                        <p>No heroes available.</p>
+                        <p>
+                          No heroes available.
+                          <Link
+                            to={'/heroes'}
+                            style={{
+                              textDecoration: 'underline',
+                              marginLeft: 10,
+                            }}
+                          >
+                            add heroes
+                          </Link>
+                        </p>
                       )}
                     </Grid>
                   </Grid>

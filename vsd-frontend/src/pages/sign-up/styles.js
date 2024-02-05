@@ -28,19 +28,15 @@ export const Content = styles.div`
       align-items: center;
   
       img {
-        width: 8vw;
-        height: 4vh;
-        min-height: 50px;
-        min-width: 120px;
-        max-width: 150px;
+        width: 150px;
+        height: 50px;
         margin-bottom: 1em;
+        margin-left: 10px;
       }
   
       .heroesList {
-        width: 5vw;
-        height: 5vh;
-        min-width: 70px;
-        min-height: 70px;
+        width: 80px;
+        height: 80px;
         max-width: 300px;
       }
 
