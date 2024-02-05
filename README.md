@@ -15,7 +15,7 @@ Para usar este projeto, siga as seguintes etapas:
 
 1. Entre no site da API da marvel[https://developer.marvel.com/] para conseguir as keys necessarias para o uso do app que estão especificadas no arquivo `env.example` na pasta de back-end.
 2. Entre no site Mailtrap[https://mailtrap.io/signin] para conseguir as keys necessarias para o uso do app que estão especificadas no arquivo `env.example`.
-3. Execute o comando `npx prisma migrate dev` para gerar as tabelas no banco de dados que deve ser especificado no arquivo `env.example`.
+3. Execute os scripts que estão no arquivo [heroes-list-database](heroes-list-database.sql) em um novo banco de dados para gerar as tabelas necessárias para a utilização da aplicação.
 4. Execute o comando `npm start` dentro da pasta de front-end.
 5. Execute o comando `npm run dev` dentro da pasta de front-end.
 6. Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
